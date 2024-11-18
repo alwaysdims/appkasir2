@@ -50,7 +50,7 @@
 					<thead>
 						<tr>
 							<th class="">#</th>
-							<th class="">Kode Baranggggggggggggggggggggggggg</th>
+							<th class="">Kode Barang</th>
 							<th class="">Produk</th>
 							<th class="">Jumlah</th>
 							<th class="">Harga</th>
