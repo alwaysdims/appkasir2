@@ -134,7 +134,7 @@
 			<table class="table table-report -mt-2">
 				<thead>
 					<tr>
-						<th class="whitespace-nowrap">No00000000000000</th>
+						<th class="whitespace-nowrap">No</th>
 						<th class="whitespace-nowrap">Nama</th>
 						<th class="text-center whitespace-nowrap">keterangan</th>
 						<th class="text-center whitespace-nowrap">stock</th>
