@@ -11,9 +11,15 @@ class Penjualan extends CI_Controller {
     }
 	public function index()
 	{
+		$this->db->select('*')->from('penjualan')->order_by('tanggal','DESC');
+		$getDataPenjualan = $this->db->get()->result_array();
+
+		$data = array(
+			'penjualan' => $getDataPenjualan,
+		);
 		$this->load->view('layout/header.php');
 		$this->load->view('layout/navbar.php');
-		$this->load->view('penjualan');
+		$this->load->view('penjualan',$data);
 		$this->load->view('layout/footer.php');
 	}
 	public function transaksi()
