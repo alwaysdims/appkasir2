@@ -198,15 +198,15 @@
 						<td class="text-center">
 							<?= $data['lengan'] ?>
 						</td>
-						<td class="table-report__action w-56">
+						<td class="table-report__action">
 							<div class="flex justify-center items-center">
 								<button class="flex items-center mr-3" data-tw-toggle="modal"
 									data-tw-target="#update<?= $data['id_produk'] ?>" href="javascript:;"> <i
-										data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit
+										data-lucide="check-square" class="w-5 h-5 mr-1"></i>
 								</button>
 								<a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"
 									data-tw-target="#delete<?= $data['id_produk'] ?>"> <i data-lucide="trash-2"
-										class="w-4 h-4 mr-1"></i> Delete </a>
+										class="w-5 h-5 mr-1"></i></a>
 							</div>
 						</td>
 						<!-- BEGIN: Modal Content -->

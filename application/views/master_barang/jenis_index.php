@@ -1,4 +1,5 @@
 	<!-- BEGIN: Form Layout -->
+	<div class="content content--top-nav">
 	<div class="intro-y box p-5">
 		
 	<?= $this->session->flashdata('notif',true) ?>
@@ -94,3 +95,4 @@
 	<!-- BEGIN: Modal Toggle -->
 	<!-- END: Modal Toggle -->
 	<!-- BEGIN: Modal Content -->
+</div>

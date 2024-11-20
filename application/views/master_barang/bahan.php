@@ -1,3 +1,4 @@
+<div class="content content--top-nav">	
 	<!-- BEGIN: Form Layout -->
 	<div class="intro-y box p-5">
 		<?= $this->session->flashdata('notif',true) ?>
@@ -24,23 +25,23 @@
 				<?php foreach($bahan as $bb) { ?>
 
 				<tr class="intro-x">
-
+					
 					<td>
 						<a href="" class="font-medium whitespace-nowrap"><?= $bb['bahan'] ?></a>
 					</td>
-
+					
 					<td class="table-report__action w-56">
 						<div class="flex justify-center items-center">
-
+							
 							<a class="flex items-center mr-3" href="javascript:;" data-tw-toggle="modal"
-								data-tw-target="#edit-modal<?= $bb['id_bahan'] ?>"> <i data-lucide="check-square"
-									class="w-4 h-4 mr-1"></i> Edit </a>
-
+							data-tw-target="#edit-modal<?= $bb['id_bahan'] ?>"> <i data-lucide="check-square"
+							class="w-4 h-4 mr-1"></i> Edit </a>
+							
 							<a class="flex items-center text-danger"
-								href="<?php echo site_url('master_barang/bahan/delete_data/'.$bb['id_bahan']); ?>" data-tw-toggle="modal"
-								data-tw-target="#delete-confirmation-modal">
+							href="<?php echo site_url('master_barang/bahan/delete_data/'.$bb['id_bahan']); ?>" data-tw-toggle="modal"
+							data-tw-target="#delete-confirmation-modal">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-									fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+								fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 									stroke-linejoin="round" class="lucide lucide-trash-2 w-4 h-4 mr-1">
 									<polyline points="3 6 5 6 21 6"></polyline>
 									<path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2">
@@ -58,30 +59,30 @@
 								<div class="modal-header">
 									<h2 class="font-medium text-base mr-auto text-center">Broadcast Message</h2>
 									<div class="dropdown sm:hidden"> <a class="dropdown-toggle w-5 h-5 block"
-											href="javascript:;" aria-expanded="false" data-tw-toggle="dropdown"> <i
-												data-lucide="more-horizontal" class="w-5 h-5 text-slate-500"></i> </a>
-
-									</div>
-								</div> <!-- END: Modal Header -->
-								<!-- BEGIN: Modal Body -->
-								<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-									<form action="<?= base_url('master_barang/bahan/update') ?>" method="POST">
-										<input type="hidden" name="id_bahan" value="<?= $bb['id_bahan'] ?>">
-										<div class="col-span-12 sm:col-span-12"> <label for="modal-form-1"
-												class="form-label">Nama</label>
-											<input id="modal-form-1" type="text" class="form-control"
-												placeholder="example@gmail.com" name="nama_bahan" value="<?= $bb['bahan'] ?>">
-										</div>
-
-										<div class="modal-footer justify-content-flex"> <button type="button"
-												data-tw-dismiss="modal"
-												class="btn btn-outline-secondary w-20 mr-1">Cancel</button> <button
-												type="submit" class="btn btn-primary w-20">Send</button> </div>
-										<!-- END: Modal Footer -->
-									</form>
-								</div> <!-- END: Modal Body -->
+									href="javascript:;" aria-expanded="false" data-tw-toggle="dropdown"> <i
+									data-lucide="more-horizontal" class="w-5 h-5 text-slate-500"></i> </a>
+									
+								</div>
+							</div> <!-- END: Modal Header -->
+							<!-- BEGIN: Modal Body -->
+							<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+								<form action="<?= base_url('master_barang/bahan/update') ?>" method="POST">
+									<input type="hidden" name="id_bahan" value="<?= $bb['id_bahan'] ?>">
+									<div class="col-span-12 sm:col-span-12"> <label for="modal-form-1"
+									class="form-label">Nama</label>
+									<input id="modal-form-1" type="text" class="form-control"
+									placeholder="example@gmail.com" name="nama_bahan" value="<?= $bb['bahan'] ?>">
+								</div>
+								
+								<div class="modal-footer justify-content-flex"> <button type="button"
+								data-tw-dismiss="modal"
+								class="btn btn-outline-secondary w-20 mr-1">Cancel</button> <button
+								type="submit" class="btn btn-primary w-20">Send</button> </div>
+								<!-- END: Modal Footer -->
+							</form>
+						</div> <!-- END: Modal Body -->
 								<!-- BEGIN: Modal Footer -->
-
+								
 							</div>
 						</div>
 					</div> <!-- END: Modal Content -->
@@ -93,3 +94,5 @@
 	<!-- BEGIN: Modal Toggle -->
 	<!-- END: Modal Toggle -->
 	<!-- BEGIN: Modal Content -->
+
+</div>

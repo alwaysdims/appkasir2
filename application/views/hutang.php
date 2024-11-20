@@ -3,30 +3,6 @@
 	<?= $this->session->flashdata('notif',true) ?>
 	<div class="grid grid-cols-12 gap-6 mt-5">
 		<div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-			<a href="<?= base_url('penjualan/transaksi') ?>" class="btn btn-primary shadow-md mr-2">Tambah Penjualan</a>
-			<div class="dropdown">
-				<button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
-					<span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-lucide="plus"></i>
-					</span>
-				</button>
-				<div class="dropdown-menu w-40">
-					<ul class="dropdown-content">
-						<li>
-							<a href="" class="dropdown-item"> <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
-							</a>
-						</li>
-						<li>
-							<a href="" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
-								Export to Excel </a>
-						</li>
-						<li>
-							<a href="" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
-								Export to PDF </a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
 			<div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
 				<div class="w-56 relative text-slate-500">
 					<input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
@@ -41,16 +17,15 @@
 					<tr>
 						<th class="text-center whitespace-nowrap">No</th>
 						<th class="text-center whitespace-nowrap">Nota</th>
+						<th class="text-center whitespace-nowrap">Tagihan</th>
 						<th class="text-center whitespace-nowrap">Status</th>
-						<th class="text-center whitespace-nowrap">Tanggal</th>
-						<th class="text-center whitespace-nowrap">Nominal</th>
 						<th class="text-center whitespace-nowrap">Action</th>
 					</tr>
 				</thead>
 				<?php 
 							
 							$no = 0;
-							foreach($penjualan as $data){
+							foreach($dataHutang as $data){
 								$no+=1;
 							
 							?>
@@ -60,26 +35,15 @@
 						<td class="text-center">
 							<?= $data['nota'] ?>
 						</td>
+						<td class="text-center">
+							<?= "Rp " . number_format($data['tagihan'], 0, ',', '.') ?>
+						</td>
 						<td class="text-center"><?= $data['status'] ?></td>
-						<td class="text-center">
-							<?php
-								$tanggal = $data['tanggal'];
-								$date = new DateTime($tanggal);
-								// Set locale ke Bahasa Indonesia
-								setlocale(LC_TIME, 'id_ID');
-								// Format: Hari, dd Bulan yyyy
-								echo date('l, d F Y', $date->getTimestamp());
-							?>
-						</td>
-
-						<td class="text-center">
-							<?= "Rp " . number_format($data['total_harga'], 0, ',', '.') ?>
-						</td>
 
 						<td class="table-report__action w-56">
 							<div class="flex justify-center items-center">
-								<a class="flex items-center mr-3" href="<?= base_url('penjualan/invoice/'.$data['nota']) ?>"> <i data-lucide="check-square"
-										class="w-4 h-4 mr-1"></i> invoice </a>
+								<a class="flex items-center mr-3" href="<?= base_url('hutang/bayarHutang/'.$data['nota']) ?>"> <i data-lucide="dollar-sign"
+										class="w-4 h-4 mr-1"></i> Bayar </a>
 							</div>
 						</td>
 					</tr>

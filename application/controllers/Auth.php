@@ -23,7 +23,8 @@ class Auth extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             // Jika validasi gagal, tampilkan form lagi
-            $this->load->view('login_form');
+			$this->session->set_flashdata('notif', 'Username atau password salah');
+            $this->load->view('login');
         } else {
             // Ambil input dari user
             $username = $this->input->post('username');
@@ -48,8 +49,8 @@ class Auth extends CI_Controller {
                 redirect('dashboard');
             } else {
                 // Jika login gagal
-                $this->session->set_flashdata('notif', 'Username atau password salah');
-                redirect('auth');
+				$this->session->set_flashdata('notif', 'Username atau password salah');
+				redirect($_SERVER["HTTP_REFERER"]);
             }
         }
     }

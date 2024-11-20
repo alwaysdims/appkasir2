@@ -7,7 +7,7 @@
 				<div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
 					<h2 class="font-medium text-base mr-auto">Pilih produk terlebih dahulu</h2>
 				</div>
-				<div class="p-5">
+				<div class="p-5 ">
 					<form id="formAddTemp" action="<?= base_url('penjualan/addtemp') ?>" method="post">
 						<input type="hidden" name="kode_penjualan">
 						<div class="preview">
@@ -46,7 +46,7 @@
 		<!-- Tabel Produk -->
 		<div class="intro-y col-span-9">
 			<div class="intro-y box">
-				<table class="table items-center border-b-2 border-gray-200">
+				<table class="table border-b border-slate-200/60 dark:border-darkmode-400 text-center ">
 					<thead>
 						<tr>
 							<th class="">#</th>

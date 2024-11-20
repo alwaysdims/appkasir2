@@ -282,27 +282,23 @@ class Penjualan extends CI_Controller {
 		redirect('penjualan/invoice/' . $nota);
 	}
 	
-	public function invoice() {
-		// Membuat nota
-		date_default_timezone_set("Asia/Jakarta");
-		$tahun = date('Y');
-		$bulan = date('m');
-		$tanggal = date('d');
-		$today = date('Y-m-d');
-		$this->db->where('DATE(tanggal)', $today);
-		$jumlah = $this->db->count_all_results('penjualan');
-		$nota = $tahun . $bulan . $tanggal . str_pad($jumlah + 1, 3, '0', STR_PAD_LEFT);
-	
-		// Ambil detail produk berdasarkan nomor nota
-		$this->db->select('*')
-             ->from('detail_penjualan a')
-             ->join('produk b', 'a.id_produk = b.id_produk')
-             ->where('a.nota', $nota);
-		$getDp = $this->db->get()->result_array();
+	public function invoice($nota) {
+		$this->db->select('*')->from('penjualan')->order_by('tanggal','DESC')->where('nota',$nota);
+		$penjualan = $this->db->get()->row();
 
-		// Data dikirim ke view
-		$data = array('detail' => $getDp);
-	
+		$this->db->select('a.*,b.nama,b.kode_barang');
+		$this->db->from('detail_penjualan a')
+			->join('produk b','a.id_produk=b.id_produk')
+			->where('nota',$nota);
+		$detailPenjualan = $this->db->get()->result_array();
+
+		$data = [
+			'judul' => 'Invoice/'.$nota,
+			'detailPenjualan' =>$detailPenjualan,
+			'penjualan' => $penjualan,
+			'nota' => $nota
+		]; 
+
 		$this->load->view('layout/header.php');
 		$this->load->view('layout/navbar.php');
 		$this->load->view('invoice', $data);

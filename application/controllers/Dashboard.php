@@ -16,6 +16,27 @@ class Dashboard extends CI_Controller {
 		$this->db->from('produk');
 		$totalProduk = $this->db->count_all_results();
 
+		// Ambil data produk
+		$this->db->from('produk')->order_by('stock','DESC')->limit(5);
+		$dataProduk = $this->db->get()->result_array();
+
+		// data penjualan
+		$this->db->from('penjualan')
+				->order_by('nota','DESC')->limit(5);
+		$totalPenjualan = $this->db->get()->result_array();
+
+		// total pengeluaran selama satubulan
+		$tanggalPengeluaran = date('Y-m');
+
+		$this->db->select('nominal')->from('pengeluaran')
+							->like('tanggal',$tanggalPengeluaran,'after');
+		$pengeluaran = $this->db->get()->row();
+		$totalPengeluaran = 0;
+		foreach($pengeluaran as $dataPengeluaran){
+			$totalPengeluaran = $totalPengeluaran + $dataPengeluaran;
+		}
+
+
 		// Mendapatkan tanggal hari ini
 		$tanggalHari = date('Y-m-d');  // Format: YYYY-MM-DD
 
@@ -46,12 +67,15 @@ class Dashboard extends CI_Controller {
 		foreach ($query->result() as $penjualan) {
 			$totalPenjualanBulanan += $penjualan->total_harga;
 		}
-		 
+		
 		$data = array(
 			'total' => $totalProduk,
+			'dataProduk' => $dataProduk,
 			'penjualan_hari_ini' => $totalPenjualanHarian,
-			'penjualanBulanan' => $totalPenjualanBulanan
-		);
+			'penjualanBulanan' => $totalPenjualanBulanan,
+			'dataPenjualan' =>$totalPenjualan,
+			'dataPengeluaran' => $dataPengeluaran
+ 		);
 
 		$this->load->view('layout/header.php');
 		$this->load->view('layout/navbar.php');

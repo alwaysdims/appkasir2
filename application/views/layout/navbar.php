@@ -371,25 +371,23 @@
 
 			</li>
 			<li>
-				<a href="javascript:;" class="top-menu">
+				<a href="<?= base_url('pengeluaran') ?>" class="top-menu">
 					<div class="top-menu__icon">
-						<i data-lucide="sidebar"></i>
+						<i data-lucide="truck"></i>
 					</div>
 					<div class="top-menu__title">
-						Forms
-
+						Pengeluaran
 					</div>
 				</a>
 
 			</li>
 			<li>
-				<a href="javascript:;" class="top-menu">
+				<a href="<?= base_url('hutang') ?>" class="top-menu">
 					<div class="top-menu__icon">
-						<i data-lucide="hard-drive"></i>
+						<i data-lucide="alert-triangle"></i>
 					</div>
 					<div class="top-menu__title">
-						Widgets
-
+						Hutang
 					</div>
 				</a>
 
