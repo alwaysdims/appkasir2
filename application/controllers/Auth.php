@@ -13,7 +13,10 @@ class Auth extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('login'); // Tampilkan halaman login
+
+		$data = ['judul' => 'Login'];
+
+        $this->load->view('login',$data); // Tampilkan halaman login
     }
 
     public function login() {

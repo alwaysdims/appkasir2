@@ -43,7 +43,7 @@
 
 			</div>	
 		</div>
-		<!-- Tabel Produk -->
+		<!-- Tabel Produkkkkkk -->
 		<div class="intro-y col-span-9">
 			<div class="intro-y box">
 				<table class="table border-b border-slate-200/60 dark:border-darkmode-400 text-center ">

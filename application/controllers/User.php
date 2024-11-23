@@ -11,11 +11,16 @@ class User extends CI_Controller {
 	public function index()
 	{
 		$this->db->select('*')->from('user')->order_by('nama','ASC');
-		$get['user'] = $this->db->get()->result_array();
+		$get = $this->db->get()->result_array();
 
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
-		$this->load->view('user',$get);
+		$data = [
+			'judul' => 'User',
+			'user' => $get,
+		];
+
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
+		$this->load->view('user',$data);
 		$this->load->view('layout/footer.php');
 	}
 

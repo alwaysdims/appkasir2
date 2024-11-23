@@ -42,8 +42,54 @@
 
 						<td class="table-report__action w-56">
 							<div class="flex justify-center items-center">
-								<a class="flex items-center mr-3" href="<?= base_url('hutang/bayarHutang/'.$data['nota']) ?>"> <i data-lucide="dollar-sign"
-										class="w-4 h-4 mr-1"></i> Bayar </a>
+								<?php 
+								// Ambil data hutang berdasarkan nota tertentu
+								$nota = $data['nota']; // Ganti dengan nota yang sesuai konteks
+								$this->db->select('status')->from('hutang')->where('nota', $nota);
+								$dataHutang = $this->db->get()->row();
+
+								// Cek status dan tampilkan tombol sesuai kondisi
+								if ($dataHutang && $dataHutang->status == 'Belum Lunas') {
+									echo ('<div class="mt-5 mb-5"> 
+										<a href="javascript:;" data-tw-toggle="modal"
+										data-tw-target="#bayar' . $nota . '" class="btn btn-primary">
+										<i data-lucide="dollar-sign" class="w-4 h-4 mr-1"></i> Bayar
+										</a>
+									</div>');
+								} else {
+									echo ('<div class="mt-5 mb-5"> 
+										<a href="javascript:;" class="btn btn-primary">
+										<i data-lucide="coffee" class="w-4 h-4 mr-1"></i> Lunas
+										</a>
+									</div>');
+								}
+								?>
+
+								<!-- END: Modal Toggle -->
+								<!-- BEGIN: Modal Content -->
+								<div id="bayar<?= $data['nota'] ?>" class="modal" tabindex="-1" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<form action="<?= base_url('hutang/pembayaran') ?>" method="post">
+												<!-- BEGIN: Modal Body -->
+												<input type="hidden" name="nota" id="" value="<?= $data['nota'] ?>">
+												<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+													<div class="col-span-12 sm:col-span-12">
+														<label for="modal-form-1" class="form-label text-center">NOTA
+															#<?= $data['nota'] ?></label>
+														<input id="modal-form-1" type="number" class="form-control"
+															required name="bayar" placeholder="Bayar...">
+													</div>
+												</div> <!-- END: Modal Body -->
+											</form>
+											<!-- BEGIN: Modal Footer -->
+											<div class="modal-footer"> <button type="button" data-tw-dismiss="modal"
+													class="btn btn-outline-secondary w-20 mr-1">Cancel</button> <button
+													type="submit" class="btn btn-primary w-20">Send</button> </div>
+											<!-- END: Modal Footer -->
+										</div>
+									</div>
+								</div> <!-- END: Modal Content -->
 							</div>
 						</td>
 					</tr>

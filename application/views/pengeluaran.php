@@ -111,7 +111,7 @@
 										data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit
 								</button>
 								<a class="flex items-center text-danger cursor-pointer" onclick="confirmDelete(<?= $data['id_pengeluaran'] ?>)">
-									<i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete 
+									<i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
 								</a>
 
 							</div>
@@ -125,21 +125,21 @@
 										<h2 class="font-medium text-base mr-auto text-center">Add New User</h2>
 									</div> <!-- END: Modal Header -->
 									<!-- BEGIN: Modal Body -->
-									<form action="<?= base_url('user/update') ?>" method="post">
+									<form action="<?= base_url('pengeluaran/updatePengeluaran') ?>" method="post">
 										<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-											<input type="hidden" name="id_user" value="<?= $data['id_pengeluaran'] ?>" id="">
+											<input type="hidden" name="id_pengeluaran" value="<?= $data['id_pengeluaran'] ?>" id="">
 											<div class="col-span-12 sm:col-span-12"> <label for="modal-form-1"
-													class="form-label">Nama</label> <input id="modal-form-1" type="text"
-													class="form-control" placeholder="Masukkan nama" name="nama"
+													class="form-label">Nominal</label> <input id="modal-form-1" type="text"
+													class="form-control" placeholder="Masukkan nama" name="nominal"
 													value="<?= $data['nominal'] ?>"> </div>
 											<div class="col-span-12 sm:col-span-12"> <label for="modal-form-3"
-													class="form-label">alamat</label> <input id="modal-form-3"
+													class="form-label">Keterangan</label> <input id="modal-form-3"
 													type="text" class="form-control" placeholder="Masukkan alamat"
-													name="alamat" value="<?= $data['keterangan'] ?>"> </div>
+													name="keterangan" value="<?= $data['keterangan'] ?>"> </div>
 											<div class="col-span-12 sm:col-span-6"> <label for="modal-form-2"
-													class="form-label">Username</label> <input id="modal-form-2"
-													type="text" class="form-control" placeholder="Masukkan username"
-													name="username" value="<?= $data['tanggal'] ?>" readonly> </div>
+													class="form-label">Tanggal</label> <input id="modal-form-2"
+													type="date" class="form-control" placeholder="Masukkan username"
+													name="tanggal" value="<?= $data['tanggal'] ?>"> </div>
 
 										
 										</div> <!-- END: Modal Body -->
@@ -152,29 +152,7 @@
 								</form>
 							</div>
 						</div> <!-- END: Modal Content -->
-						<!-- BEGIN: Delete Confirmation Modal -->
-							<div id="delete<?= $data['id_pengeluaran'] ?>" class="modal" tabindex="-1" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-body p-0">
-											<div class="p-5 text-center">
-												<i data-lucide="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
-												<div class="text-3xl mt-5">Apakah Anda Yakin?</div>
-												<div class="text-slate-500 mt-2">
-													Ingin Menghapus data dengan nama : <?= $data['nominal'] ?>
-													<br>
-													username : <?= $data['keterangan'] ?>
-												</div>
-											</div>
-											<div class="px-5 pb-8 text-center">
-												<button type="button" data-tw-dismiss="modal"
-													class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-												<a href="<?= base_url('user/delete/'.$data['id_pengeluaran']) ?>" class="btn btn-danger w-24">Delete</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+						
 					</tr>
 
 					<?php  } ?>
@@ -222,6 +200,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- SweetAlert2 -->
 
 <script>
     $(document).ready(function () {
@@ -244,21 +223,20 @@
     });
 </script>
 <script>
-    function confirmDelete(id_user) {
+    function confirmDelete(id_pengeluaran) {
         Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Data yang dihapus tidak dapat dikembalikan!",
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Lakukan penghapusan dengan mengarahkan ke URL penghapusan
-                window.location.href = '<?= base_url("user/delete/") ?>' + id_user;
+                // Redirect to the delete function in your backend
+                window.location.href = '<?= base_url("pengeluaran/deletePengeluaran/") ?>' + id_pengeluaran;
             }
-        })
+        });
     }
 </script>

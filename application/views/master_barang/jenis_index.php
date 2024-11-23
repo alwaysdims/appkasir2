@@ -1,6 +1,6 @@
 	<!-- BEGIN: Form Layout -->
 	<div class="content content--top-nav">
-	<div class="intro-y box p-5">
+	<div class="intro-y box p-5 mt-5">
 		
 	<?= $this->session->flashdata('notif',true) ?>
 		<form action="<?= base_url('master_barang/jenis/simpan') ?>" method="post">

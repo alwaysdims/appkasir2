@@ -123,7 +123,7 @@
 				<img alt="Midone - HTML Admin Template" class="w-6"
 					src="<?= base_url('assets/template/Compiled') ?>/dist/images/logo.svg">
 				<span class="text-white text-lg ml-3">
-					Tinker
+					AppKasir
 				</span>
 			</a>
 
@@ -134,7 +134,7 @@
 					<li class="breadcrumb-item">
 						<a href="#">Application</a>
 					</li>
-					<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+					<li class="breadcrumb-item active" aria-current="page"><?= $judul ?></li>
 				</ol>
 			</nav>
 			<!-- END: Breadcrumb -->
@@ -164,25 +164,13 @@
 			</div>
 			<!-- END: Search -->
 			<!-- BEGIN: Notifications -->
-			<div class="intro-x dropdown mr-4 sm:mr-6">
-				<div class="dropdown-toggle notification notification--light notification--bullet cursor-pointer"
-					role="button" aria-expanded="false" data-tw-toggle="dropdown">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
-						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-						icon-name="bell" data-lucide="bell"
-						class="lucide lucide-bell notification__icon dark:text-slate-500">
-						<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-						<path d="M13.73 21a2 2 0 01-3.46 0"></path>
-					</svg>
-				</div>
-				<div class="notification-content pt-2 dropdown-menu"></div>
-			</div>
+			 
 			<!-- END: Notifications -->
 			<!-- BEGIN: Account Menu -->
 			<div class="intro-x dropdown w-8 h-8">
 				<div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110"
 					role="button" aria-expanded="false" data-tw-toggle="dropdown">
-					<img alt="Midone - HTML Admin Template" src="dist/images/profile-12.jpg">
+					<i data-lucide="user" class="w-10 h-10 text-white mr-1"></i>
 				</div>
 				<div class="dropdown-menu w-56">
 					<ul
@@ -288,7 +276,7 @@
 			</li>
 			
 			<li>
-				<a href="<?= base_url('produk')?>" class="top-menu">
+				<a href="<?= base_url('produk')?>" class="top-menu <?php if($data == 'produk'){echo'top-menu--active';} ?>">
 					<div class="top-menu__icon">
 						<i data-lucide="box"></i>
 					</div>
@@ -300,7 +288,7 @@
 
 			</li>
 			<li>
-                        <a href="javascript:;" class="top-menu">
+                        <a href="javascript:;" class="top-menu <?php if($data == 'master_barang'){echo'top-menu--active';} ?>">
                             <div class="top-menu__icon"> <i data-lucide="box"></i> </div>
                             <div class="top-menu__title">
                                 Master Barang
@@ -347,7 +335,7 @@
                         </ul>
                     </li>
 			<li>
-				<a href="<?= base_url('penjualan') ?>" class="top-menu">
+				<a href="<?= base_url('penjualan') ?>" class="top-menu <?php if($data == 'penjualan'){echo'top-menu--active';} ?>">
 					<div class="top-menu__icon">
 						<i data-lucide="shopping-cart"></i>
 					</div>
@@ -371,7 +359,7 @@
 
 			</li>
 			<li>
-				<a href="<?= base_url('pengeluaran') ?>" class="top-menu">
+				<a href="<?= base_url('pengeluaran') ?>" class="top-menu <?php if($data == 'pengeluaran'){echo'top-menu--active';} ?>">
 					<div class="top-menu__icon">
 						<i data-lucide="truck"></i>
 					</div>
@@ -382,7 +370,7 @@
 
 			</li>
 			<li>
-				<a href="<?= base_url('hutang') ?>" class="top-menu">
+				<a href="<?= base_url('hutang') ?>" class="top-menu <?php if($data == 'hutang'){echo'top-menu--active';} ?>">
 					<div class="top-menu__icon">
 						<i data-lucide="alert-triangle"></i>
 					</div>

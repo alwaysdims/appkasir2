@@ -58,6 +58,7 @@ class  Produk extends CI_Controller {
 		$produk = $this->db->get()->result_array();
 
 		$data = array(
+			'judul' => 'Produk',
 			'jenis' => $jenis,
 			'bahan' => $bahan,
 			'size' => $size,
@@ -67,8 +68,8 @@ class  Produk extends CI_Controller {
 			'produk' => $produk
 		);
 
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
 		$this->load->view('produk',$data);
 		$this->load->view('layout/footer.php');
 	}

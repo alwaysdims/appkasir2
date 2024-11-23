@@ -12,11 +12,15 @@ class Size extends CI_Controller {
         
         $this->db->from('size');
         $this->db->order_by('size','ASC');
-        $size['size'] = $this->db->get()->result_array();
+        $size = $this->db->get()->result_array();
 
-        $this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
-		$this->load->view('master_barang/size_index.php',$size);
+		$data = [
+			'judul' => 'Size',
+			'size' =>$size
+		];
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
+		$this->load->view('master_barang/size_index.php',$data);
 		$this->load->view('layout/footer.php');
 	}
     public function simpan(){

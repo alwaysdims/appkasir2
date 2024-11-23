@@ -12,12 +12,16 @@ class Jenis extends CI_Controller {
         
         $this->db->from('jenis');
         $this->db->order_by('jenis','ASC');
-        $jenis['jenis'] = $this->db->get()->result_array();
-        
+        $jenis = $this->db->get()->result_array();
+		
+		$data = [
+			'judul' => 'Jenis',
+			'jenis' => $jenis
+		];
 
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
-		$this->load->view('master_barang/jenis_index.php',$jenis);
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
+		$this->load->view('master_barang/jenis_index.php',$data);
 		$this->load->view('layout/footer.php');
 	}
     public function simpan(){

@@ -15,10 +15,11 @@ class Penjualan extends CI_Controller {
 		$getDataPenjualan = $this->db->get()->result_array();
 
 		$data = array(
+			'judul' => 'Penjualan',
 			'penjualan' => $getDataPenjualan,
 		);
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
 		$this->load->view('penjualan',$data);
 		$this->load->view('layout/footer.php');
 	}
@@ -44,13 +45,14 @@ class Penjualan extends CI_Controller {
 		$app = $this->db->get()->result_array();
 
 		$data = array(
+			'judul' => 'Transaksi #'.$nota,
 			'nota' => $nota,
 			'produk' => $getProduk,
 			'tampil' =>$app
 		);
 
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
 		$this->load->view('transaksi',$data);
 		$this->load->view('layout/footer.php');
 	}
@@ -293,14 +295,14 @@ class Penjualan extends CI_Controller {
 		$detailPenjualan = $this->db->get()->result_array();
 
 		$data = [
-			'judul' => 'Invoice/'.$nota,
+			'judul' => 'Invoice #'.$nota,
 			'detailPenjualan' =>$detailPenjualan,
 			'penjualan' => $penjualan,
 			'nota' => $nota
 		]; 
 
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
 		$this->load->view('invoice', $data);
 		$this->load->view('layout/footer.php');
 	}

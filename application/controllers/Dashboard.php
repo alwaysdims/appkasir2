@@ -24,18 +24,23 @@ class Dashboard extends CI_Controller {
 		$this->db->from('penjualan')
 				->order_by('nota','DESC')->limit(5);
 		$totalPenjualan = $this->db->get()->result_array();
-
-		// total pengeluaran selama satubulan
-		$tanggalPengeluaran = date('Y-m');
-
-		$this->db->select('nominal')->from('pengeluaran')
-							->like('tanggal',$tanggalPengeluaran,'after');
-		$pengeluaran = $this->db->get()->row();
-		$totalPengeluaran = 0;
-		foreach($pengeluaran as $dataPengeluaran){
-			$totalPengeluaran = $totalPengeluaran + $dataPengeluaran;
+		
+		// total pengeluaran selama 1bulan
+		$tanggalPengeluaranBulanan = date('Y-m');
+		
+		$this->db->select('nominal');
+		$this->db->from('pengeluaran');
+		$this->db->like('tanggal', $tanggalPengeluaranBulanan, 'after');
+		$dataPengeluaranBulanan = $this->db->get()->result();
+		
+		$totalPengeluaranBulanan = 0;
+		foreach ($dataPengeluaranBulanan as $pengeluaran) {
+			$totalPengeluaranBulanan += $pengeluaran->nominal;
 		}
-
+		
+		// data total pengeluaran selama satubulan	
+		$this->db->from('pengeluaran')->order_by('tanggal','DESC')->limit(5);
+		$getDataPengeluaran = $this->db->get()->result_array();
 
 		// Mendapatkan tanggal hari ini
 		$tanggalHari = date('Y-m-d');  // Format: YYYY-MM-DD
@@ -69,16 +74,18 @@ class Dashboard extends CI_Controller {
 		}
 		
 		$data = array(
+			'judul' => 'Dashboard',
 			'total' => $totalProduk,
 			'dataProduk' => $dataProduk,
 			'penjualan_hari_ini' => $totalPenjualanHarian,
 			'penjualanBulanan' => $totalPenjualanBulanan,
 			'dataPenjualan' =>$totalPenjualan,
-			'dataPengeluaran' => $dataPengeluaran
+			'totalPengeluaranBulanan' => $totalPengeluaranBulanan,
+			'getDataPengeluaran' => $getDataPengeluaran,
  		);
 
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
 		$this->load->view('beranda',$data);
 		$this->load->view('layout/footer.php');
 	}

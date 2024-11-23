@@ -12,12 +12,15 @@ class Warna extends CI_Controller {
         
         $this->db->from('warna');
         $this->db->order_by('warna','ASC');
-        $warna['warna'] = $this->db->get()->result_array();
+        $warna = $this->db->get()->result_array();
        
-
-		$this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
-		$this->load->view('master_barang/warna_index.php',$warna);
+		$data = [
+			'judul' => 'Warna',
+			'warna' =>$warna
+		];
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
+		$this->load->view('master_barang/warna_index.php',$data);
 		$this->load->view('layout/footer.php');
 	}
     public function simpan(){

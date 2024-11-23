@@ -78,7 +78,7 @@
 						<div class="ml-auto">
 							<!-- Membuat konten berada di sebelah kanan -->
 							<div class="text-3xl font-medium leading-8 mt-3 mb-3">
-								<?= "Rp " . number_format($dataPengeluaran , 0, ',', '.') ?>
+								<?= "Rp " . number_format($totalPengeluaranBulanan , 0, ',', '.') ?>
 							</div>
 						</div>
 					</div>
@@ -124,6 +124,7 @@
 			<?php 
 				foreach($dataPenjualan as $row):
 			?>
+				<a href="<?= base_url('penjualan/invoice/'.$row['nota']) ?>">
 				<div class="intro-y">
 					<div class="box px-4 py-4 mb-3 flex items-center zoom-in">
 						<div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
@@ -143,6 +144,7 @@
 						</div>
 					</div>
 				</div>
+				</a>
 			<?php endforeach; ?>
 			<a href="<?= base_url('penjualan') ?>"
 				class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View
@@ -152,20 +154,23 @@
 			<h2 class="text-lg text-center mb-2 font-medium truncate mr-5">			
 				<!-- Weekly Best Sellers -->
 			</h2>
+			<?php 
+			foreach($getDataPengeluaran as $rowPengeluaran):
+			?>
 			<div class="intro-y">
 				<div class="box px-4 py-4 mb-3 flex items-center zoom-in">
 					<div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
 						<img alt="Midone - HTML Admin Template" src="dist/images/profile-9.jpg">
 					</div>
 					<div class="ml-4 mr-auto">
-						<div class="font-medium">Christian Bale</div>
-						<div class="text-slate-500 text-xs mt-0.5">23 June 2020</div>
+						<div class="font-medium"><?= 'Rp. '. number_format( $rowPengeluaran['nominal'],0,',',',') ?></div>
+						<div class="text-slate-500 text-xs mt-0.5"><?= $rowPengeluaran['tanggal'] ?></div>
 					</div>
 					<div class="py-1 px-2 rounded-full text-xs bg-success text-white cursor-pointer font-medium">137
 						Sales</div>
 				</div>
 			</div>
-			
+			<?php endforeach; ?>
 			
 			<a href=""
 				class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View

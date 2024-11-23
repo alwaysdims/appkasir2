@@ -12,7 +12,7 @@
 	<meta name="keywords"
 		content="admin template, Tinker Admin Template, dashboard template, flat admin template, responsive admin template, web app">
 	<meta name="author" content="LEFT4CODE">
-	<title>Dashboard - Midone - Tailwind HTML Admin Template</title>
+	<title>App Kasir | <?= $judul ?></title>
 	<!-- BEGIN: CSS Assets-->
 	<link rel="stylesheet" href="<?= base_url('assets/template/Compiled') ?>/dist/css/app.css" />
 <!-- DataTables CSS --> 

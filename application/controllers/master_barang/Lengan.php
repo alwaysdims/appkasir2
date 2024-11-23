@@ -12,11 +12,16 @@ class Lengan extends CI_Controller {
         
         $this->db->from('lengan');
         $this->db->order_by('lengan','ASC');
-        $lengan['lengan'] = $this->db->get()->result_array();
+        $lengan = $this->db->get()->result_array();
 
-        $this->load->view('layout/header.php');
-		$this->load->view('layout/navbar.php');
-		$this->load->view('master_barang/lengan_index.php',$lengan);
+		$data = [
+			'judul' => 'Lengan',
+			'lengan' => $lengan
+		];
+
+        $this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
+		$this->load->view('master_barang/lengan_index.php',$data);
 		$this->load->view('layout/footer.php');
 	}
     public function simpan(){
