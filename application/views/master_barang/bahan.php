@@ -1,5 +1,10 @@
 <div class="content content--top-nav">	
 	<!-- BEGIN: Form Layout -->
+	<?php 
+	$data = $this->session->userdata('role');
+	
+	if($data == 'Admin'){ 
+	?>
 	<div class="intro-y box p-5 mt-5">
 		<?= $this->session->flashdata('notif',true) ?>
 		<form action="<?= base_url('master_barang/bahan/simpan') ?>" method="post">
@@ -14,10 +19,10 @@
 		</form>
 	</div>
 	<div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-		<table class="table table-report -mt-2">
+		<table id="example" class="table table-auto w-full table-report mt-2">
 			<thead>
 				<tr>
-					<th class="whitespace-nowrap">Nama</th>
+					<th class="px-4 py-2 text-center">Nama</th>
 
 				</tr>
 			</thead>
@@ -26,11 +31,11 @@
 
 				<tr class="intro-x">
 					
-					<td>
-						<a href="" class="font-medium whitespace-nowrap"><?= $bb['bahan'] ?></a>
+					<td class="px-4 py-2 text-center">
+						<a href="" class=" font-medium "><?= $bb['bahan'] ?></a>
 					</td>
 					
-					<td class="table-report__action w-56">
+					<td class="px-4 py-2 text-center table-report__action w-56">
 						<div class="flex justify-center items-center">
 							
 							<a class="flex items-center mr-3" href="javascript:;" data-tw-toggle="modal"
@@ -91,8 +96,10 @@
 			</tbody>
 		</table>
 	</div>
-	<!-- BEGIN: Modal Toggle -->
-	<!-- END: Modal Toggle -->
-	<!-- BEGIN: Modal Content -->
-
+	<?php } else {?>
+		<div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-lg p-8 max-w-lg text-center">
+			<h1 class="text-3xl md:text-4xl font-bold mb-4 text-danger">Fitur Ini Hanya Untuk Admin!</h1>
+			<p class="text-lg md:text-xl mb-6 text-danger">Anda harus memiliki hak akses admin untuk menggunakan fitur ini.</p>
+   		 </div>
+	<?php  }?>
 </div>

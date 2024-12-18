@@ -43,18 +43,22 @@
 
 			</div>	
 		</div>
+		
 		<!-- Tabel Produkkkkkk -->
 		<div class="intro-y col-span-9">
-			<div class="intro-y box">
-				<table class="table border-b border-slate-200/60 dark:border-darkmode-400 text-center ">
+			<div class="intro-y">
+				<table class="table box text-center">
 					<thead>
 						<tr>
 							<th class="">#</th>
 							<th class="">Kode Barang</th>
 							<th class="">Produk</th>
-							<th class="">Jumlah</th>
+							<th class="text-center">Jumlah</th>
 							<th class="">Harga</th>
-							<th class="">Total</th>
+							<th></th>
+							<th></th>
+							<th class="text-center">Total</th>
+							<th></th>
 							<th class="">Action</th>
 						</tr>
 					</thead>
@@ -68,10 +72,10 @@
 								$total_harga += $jumlah;
 						?>
 						<tr>
-							<td class="border-b whitespace-no-wrap"><?= $no ?></td>
-							<td class="border-b whitespace-no-wrap"><?= $data['kode_barang'] ?></td>
-							<td class="border-b whitespace-no-wrap"><?= $data['nama'] ?></td>
-							<td class="border-b whitespace-no-wrap">
+							<td class="whitespace-no-wrap"><?= $no ?></td>
+							<td class="whitespace-no-wrap"><?= $data['kode_barang'] ?></td>
+							<td class="whitespace-no-wrap" ><?= $data['nama'] ?></td>
+							<td class="whitespace-no-wrap">
 								<form action="<?= base_url('penjualan/updateJumlahTemp/{id_temp}') ?>" method="post"
 									id="form_update">
 									<input type="hidden" name="id_temp" value="<?= $data['id_temp'] ?>">
@@ -80,9 +84,11 @@
 										onchange="autoSubmit()">
 								</form>
 							</td>
-							<td class="border-b whitespace-no-wrap"><?= $data['harga'] ?></td>
-							<td class="border-b whitespace-no-wrap"><?= $jumlah ?></td>
-							<td class="border-b whitespace-no-wrap">
+							<td class="whitespace-no-wrap"  colspan="2"><?= 'Rp '. number_format($data['harga'],0,',',','
+							) ?></td>
+							<td class="whitespace-no-wrap"  colspan="3"><?= 'Rp '.number_format($jumlah,0,',',
+							',') ?></td>
+							<td class="whitespace-no-wrap" >
 								<a href="#"
 									onclick="confirmDelete('<?= base_url('penjualan/delete/'.$data['id_temp']) ?>')"
 									class="btn btn-danger">Hapus</a>
@@ -91,8 +97,8 @@
 						<?php } ?>
 						<!-- Total Harga -->
 						<tr>
-							<td colspan="4" class="text-center">Total Harga</td>
-							<td colspan="2" class="text-center">Rp. <?= $total_harga ?></td>
+							<td colspan="5" class="text-center">Total Harga</td>
+							<td colspan="4" class="text-center"> <?= 'Rp '. number_format($total_harga,0,',',',') ?></td>
 							<td class="text-center">-</td>
 						</tr>
 						<!-- Form untuk pembayaran -->
@@ -100,7 +106,7 @@
 							enctype="multipart/form-data">
 							<tr>
 								<!-- Input Uang Bayar -->
-								<td colspan="8">
+								<td colspan="13">
 									<div>
 										
 									<input type="hidden" name="total_harga" id="" value="<?= $total_harga ?>">
@@ -111,17 +117,17 @@
 							</tr>
 							<tr>
 								<!-- Input Metode Pembayaran -->
-								<td colspan="8">
+								<td colspan="13">
 									<select name="metode_pembayaran" class="form-control" id="metode_pembayaran"
 										onchange="toggleBuktiPembayaran()">
 										<option value="Tunai">Tunai</option>
-										<option value="Transfer">Transfer</option>
+										<!-- <option value="Transfer">Transfer</option> -->
 									</select>
 								</td>
 							</tr>
 							<tr id="buktiPembayaranRow" style="display: none;">
 								<!-- Input Bukti Pembayaran -->
-								<td colspan="8">
+								<td colspan="13">
 									<div>
 										<input id="bukti_pembayaran" type="file" name="bukti_pembayaran"
 											class="form-control" accept="image/*" placeholder="Unggah Bukti Pembayaran">
@@ -130,7 +136,7 @@
 							</tr>
 							<tr>
 								<!-- Input Kembalian -->
-								<td colspan="8">
+								<td colspan="13" class="relative">
 									<div>
 										<input id="kembalian" name="kembalian" type="text" class="form-control" readonly
 											placeholder="Kembalian atau Hutang">
@@ -139,7 +145,7 @@
 							</tr>
 							<tr>
 								<!-- Tombol Submit -->
-								<td colspan="8" class="text-right">
+								<td colspan="13" class="text-right">
 									<button type="submit" class="btn btn-primary w-full">Bayar</button>
 								</td>
 							</tr>

@@ -258,7 +258,7 @@ class Penjualan extends CI_Controller {
 				'jumlah_sesudah' => $rowData['stock'] - $rowData['jumlah'],
 				'tanggal' => date('Y-m-d'),
 				'username' => $this->session->userdata('username'),
-				'keterangan' => 'Terjual ' . $rowData['jumlah'] . ' dengan nota ' . $nota
+				'keterangan' => 'Terjual ' . $rowData['jumlah'] . ' dengan nota #' . $nota
 			);
 			$this->db->insert('log_stock', $dataLogStock);
 		}
@@ -306,5 +306,30 @@ class Penjualan extends CI_Controller {
 		$this->load->view('invoice', $data);
 		$this->load->view('layout/footer.php');
 	}
+	
+	public function ExporToExel(){
+
+		$tanggal1 = $this->input->post('tgl1');
+		$tanggal2 = $this->input->post('tgl2');
+		$this->db->from('detail_penjualan a')
+				->join('produk b','a.id_produk=b.id_produk')
+				->join('penjualan c','a.nota=c.nota')
+				->order_by('c.tanggal','DESC')
+				->where('c.tanggal >=',$tanggal1)
+				->where('c.tanggal <=',$tanggal2);
+		$laporan =$this->db->get()->result_array();
+
+
+		$data = [
+			'laporan' => $laporan,
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+		]; 
+
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('exporExcel.php', $data);
+		$this->load->view('layout/footer.php');
+	}
+
 	
 }

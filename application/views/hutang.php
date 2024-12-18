@@ -3,25 +3,26 @@
 	<?= $this->session->flashdata('notif',true) ?>
 	<div class="grid grid-cols-12 gap-6 mt-5">
 		<div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-			<div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-				<div class="w-56 relative text-slate-500">
-					<input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
-					<i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i>
-				</div>
-			</div>
+
 		</div>
 		<!-- BEGIN: Data List -->
 		<div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-			<table class="table table-report -mt-2">
+
+
+
+
+			<table id="example" class="table table-auto w-full">
 				<thead>
+				
 					<tr>
-						<th class="text-center whitespace-nowrap">No</th>
-						<th class="text-center whitespace-nowrap">Nota</th>
-						<th class="text-center whitespace-nowrap">Tagihan</th>
-						<th class="text-center whitespace-nowrap">Status</th>
-						<th class="text-center whitespace-nowrap">Action</th>
+						<th class="px-4 py-2 text-center whitespace-nowrap">No</th>
+						<th class="px-4 py-2 text-center whitespace-nowrap">Nota</th>
+						<th class="px-4 py-2 text-center whitespace-nowrap">Tagihan</th>
+						<th class="px-4 py-2 text-center whitespace-nowrap">Status</th>
+						<th class="px-4 py-2 text-center whitespace-nowrap">Action</th>
 					</tr>
 				</thead>
+				<tbody>
 				<?php 
 							
 							$no = 0;
@@ -29,19 +30,13 @@
 								$no+=1;
 							
 							?>
-				<tbody>
-					<tr class="intro-x">
-						<td class="text-center"><?= $no ?></td>
-						<td class="text-center">
-							<?= $data['nota'] ?>
-						</td>
-						<td class="text-center">
-							<?= "Rp " . number_format($data['tagihan'], 0, ',', '.') ?>
-						</td>
-						<td class="text-center"><?= $data['status'] ?></td>
-
-						<td class="table-report__action w-56">
-							<div class="flex justify-center items-center">
+					<tr>
+						<td class="px-4 py-2 text-center"><?= $no ?></td>
+						<td style="color:blue;" class="px-4 py-2 text-center">#<?= $data['nota'] ?></td>
+						<td class="px-4 py-2 text-center"><?= "Rp " . number_format($data['tagihan'], 0, ',', '.') ?></td>
+						<td class="px-4 py-2 text-center" <?=($data['status'] == 'Belum Lunas' ? 'style="color:red;"' : 'style="color:green;"')?>><?= $data['status'] ?></td>
+						<td class="px-4 py-2 text-center table-report__action w-56"  >
+							<div class="flex justify-center items-center ">
 								<?php 
 								// Ambil data hutang berdasarkan nota tertentu
 								$nota = $data['nota']; // Ganti dengan nota yang sesuai konteks
@@ -65,6 +60,13 @@
 								}
 								?>
 
+								<div class="mt-5 ml-5 mb-5">
+									<a href="<?= base_url('hutang/log_hutang/'.$data['nota']) ?>"
+										class="btn btn-primary">
+										<i data-lucide="zoom-in" class="w-4 h-4 mr-1"></i> Detail
+									</a>
+								</div>
+
 								<!-- END: Modal Toggle -->
 								<!-- BEGIN: Modal Content -->
 								<div id="bayar<?= $data['nota'] ?>" class="modal" tabindex="-1" aria-hidden="true">
@@ -73,6 +75,8 @@
 											<form action="<?= base_url('hutang/pembayaran') ?>" method="post">
 												<!-- BEGIN: Modal Body -->
 												<input type="hidden" name="nota" id="" value="<?= $data['nota'] ?>">
+												<input type="hidden" name="id_produk" value="<?= $data['id_produk'] ?>"
+													id="">
 												<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
 													<div class="col-span-12 sm:col-span-12">
 														<label for="modal-form-1" class="form-label text-center">NOTA
@@ -92,43 +96,23 @@
 								</div> <!-- END: Modal Content -->
 							</div>
 						</td>
+						
 					</tr>
+
+					<?php } ?>
+					<!-- Add more rows as needed -->
 				</tbody>
-				<?php } ?>
 			</table>
+
+
+
+
+
+
+		
 		</div>
 		<!-- END: Data List -->
-		<!-- BEGIN: Pagination -->
-		<div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-			<nav class="w-full sm:w-auto sm:mr-auto">
-				<ul class="pagination">
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevrons-left"></i> </a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevron-left"></i> </a>
-					</li>
-					<li class="page-item"> <a class="page-link" href="#">...</a> </li>
-					<li class="page-item"> <a class="page-link" href="#">1</a> </li>
-					<li class="page-item active"> <a class="page-link" href="#">2</a> </li>
-					<li class="page-item"> <a class="page-link" href="#">3</a> </li>
-					<li class="page-item"> <a class="page-link" href="#">...</a> </li>
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevron-right"></i> </a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevrons-right"></i> </a>
-					</li>
-				</ul>
-			</nav>
-			<select class="w-20 form-select box mt-3 sm:mt-0">
-				<option>10</option>
-				<option>25</option>
-				<option>35</option>
-				<option>50</option>
-			</select>
-		</div>
-		<!-- END: Pagination -->
+
 	</div>
 	<!-- BEGIN: Delete Confirmation Modal -->
 	<div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">

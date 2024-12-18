@@ -107,6 +107,26 @@ class  Produk extends CI_Controller {
 
 	public function update(){
 		$getId = array('id_produk' => $this->input->post('id_produk'));
+		
+		// $this->db->select('a.stock')
+		// 		->from('produk a')
+		// 		->join('log_stock b', 'a.id_produk = b.id_produk')
+		// 		->where('a.id_produk', $this->input->post('id_produk')); // Tambahkan kondisi WHERE
+
+		$this->db->from('produk')->where('id_produk', $this->input->post('id_produk'));
+
+		$stockSebelum = $this->db->get()->row();
+		
+		$dataLogStock = [
+			'id_produk' => $this->input->post('id_produk'),
+			'jumlah_sebelum' => $stockSebelum->stock,
+			'jumlah_sesudah' => $this->input->post('stock'),
+			'username' => $this->session->userdata('username'),
+			'tanggal' => date('Y-m-d H:i:s'),
+			'keterangan' => 'Stock diubah dari ' . $stockSebelum->stock . ' menjadi ' . $this->input->post('stock') . ' oleh ' . $this->session->userdata('username')	
+		];
+		$this->db->insert('log_stock',$dataLogStock);
+
 		$data = array(
             'nama'     => $this->input->post('nama'),
             'keterangan'     => $this->input->post('keterangan'),
@@ -121,12 +141,31 @@ class  Produk extends CI_Controller {
             'id_jenis'     => $this->input->post('jenis'),
             'id_lengan'     => $this->input->post('lengan'),
         );
-
 		$this->db->update('produk', $data, $getId);
+
 		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible show flex items-center mb-2" role="alert"> <i data-lucide="alert-circle" class="w-6 h-6 mr-2"></i>Data Berhasil diubah! <button type="button" class="btn-close text-white" data-tw-dismiss="alert" aria-label="Close"> <i data-lucide="x" class="w-4 h-4"></i> </button> </div>
 		');
         redirect('produk');
 
+	}
+
+	public function logStock($id){
+		$this->db->select('*')
+		->from('produk a')
+		->join('log_stock b','a.id_produk = b.id_produk')
+		->order_by('tanggal','DESC')
+		->where('a.id_produk',$id);
+		$logStock = $this->db->get()->result_array();
+
+		$data = [
+			'judul' => 'Produk<li class="breadcrumb-item active" aria-current="page">Log Stock</i>',
+			'logStock' => $logStock
+		];
+
+		$this->load->view('layout/header.php',$data);
+		$this->load->view('layout/navbar.php',$data);
+		$this->load->view('log_stock', $data);
+		$this->load->view('layout/footer.php');
 	}
 	public function delete($id){
 		$getId = array('id_produk' => $id);

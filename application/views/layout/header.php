@@ -15,16 +15,16 @@
 	<title>App Kasir | <?= $judul ?></title>
 	<!-- BEGIN: CSS Assets-->
 	<link rel="stylesheet" href="<?= base_url('assets/template/Compiled') ?>/dist/css/app.css" />
-<!-- DataTables CSS --> 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-<!-- jQuery -->
+
 <!-- select2 -->
 <link href="https://adminlte.io/themes/v3/plugins/select2/css/select2.min.css" rel="stylesheet" />   
 
 
-<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwind.min.css">
 
+	<style>
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+	</style>
 </head>
 <!-- END: Head -->

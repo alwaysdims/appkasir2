@@ -1,14 +1,12 @@
 <div class="content content--top-nav">
 
 	<?= $this->session->flashdata('notif',true) ?>
-	<h2 class="intro-y text-lg font-medium mt-10">
-		User
-	</h2>
 	<div class="grid grid-cols-12 gap-6 mt-5">
 		<div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 			<!-- BEGIN: Modal Toggle -->
 			<div class="text-center "> <a href="javascript:;" data-tw-toggle="modal"
-					data-tw-target="#header-footer-modal-preview" class="btn btn-primary shadow-md mr-2">Add User</a>
+					data-tw-target="#header-footer-modal-preview" class="btn btn-primary shadow-md mr-2">Add
+					Pengeluaran</a>
 			</div>
 			<!-- END: Modal Toggle -->
 			<!-- BEGIN: Modal Content -->
@@ -23,7 +21,7 @@
 						<form action="<?= base_url('pengeluaran/addPengeluaran') ?>" method="post">
 							<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
 								<div class="col-span-12 sm:col-span-12"> <label for="modal-form-1"
-										class="form-label">Nominal</label> <input id="modal-form-1" type="number"
+										class="form-label">Nominal Pengeluaran</label> <input id="modal-form-1" type="number"
 										class="form-control" placeholder="Masukkan nama" name="nominal"> </div>
 								<div class="col-span-12 sm:col-span-12"> <label for="modal-form-2"
 										class="form-label">Keterangan</label> <input id="modal-form-2" type="text"
@@ -31,6 +29,19 @@
 								<div class="col-span-12 sm:col-span-12"> <label for="modal-form-3"
 										class="form-label">Tanggal</label> <input id="modal-form-3" type="date"
 										class="form-control" placeholder="Masukkan alamat" name="tanggal"> </div>
+								<div class="col-span-12 sm:col-span-12">
+									<label for="modal-form-6" class="form-label">Metode</label>
+									<select id="modal-form-6" class="form-select" name="metode"
+										onchange="toggleTagihan()">
+										<option value="Cash">Cash</option>
+										<option value="Credit">Credit</option>
+									</select>
+								</div>
+								<div class="col-span-12 sm:col-span-12" id="tagihan-form" style="display: none;">
+									<label for="modal-form-4" class="form-label">Bayar</label>
+									<input id="modal-form-4" type="number" class="form-control" name="tagihan">
+								</div>
+
 							</div> <!-- END: Modal Body -->
 							<!-- BEGIN: Modal Footer -->
 							<div class="modal-footer"> <button type="button" data-tw-dismiss="modal"
@@ -41,35 +52,7 @@
 
 				</div>
 			</div> <!-- END: Modal Content -->
-			<div class="dropdown">
-				<button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
-					<span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-lucide="plus"></i>
-					</span>
-				</button>
-				<div class="dropdown-menu w-40">
-					<ul class="dropdown-content">
-						<li>
-							<a href="" class="dropdown-item"> <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
-							</a>
-						</li>
-						<li>
-							<a href="" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
-								Export to Excel </a>
-						</li>
-						<li>
-							<a href="" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
-								Export to PDF </a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
-			<div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-				<div class="w-56 relative text-slate-500">
-					<input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
-					<i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i>
-				</div>
-			</div>
+			
 		</div>
 		<!-- BEGIN: Data List -->
 		<div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -80,6 +63,8 @@
 						<th class="whitespace-nowrap">Nominal</th>
 						<th class="text-center whitespace-nowrap">Keterangan</th>
 						<th class="text-center whitespace-nowrap">Tanggal</th>
+						<th class="text-center whitespace-nowrap">Metode</th>
+						<th class="text-center whitespace-nowrap">Status</th>
 						<th class="text-center whitespace-nowrap">ACTIONS</th>
 					</tr>
 				</thead>
@@ -96,13 +81,25 @@
 							<?= $no ?>
 						</td>
 						<td>
-							<?=  'Rp. '.number_format($data['nominal'],0,',',',') ?>
+							<?=  'Rp'.number_format($data['nominal'],0,',','.') ?>
 						</td>
 						<td class="text-center">
 							<?= $data['keterangan'] ?>
 						</td>
 						<td class="text-center">
-							<?= $data['tanggal'] ?>
+							<?php
+								
+								$tanggal = $data['tanggal'];
+								$newDate = new DateTime($tanggal);
+								setlocale(LC_TIME,'id_ID');
+								echo date('l, d F Y',$newDate->getTimestamp())
+ 							?>
+						</td>
+						<td class="text-center">
+							<?= $data['metode'] ?>
+						</td>
+						<td class="text-center">
+							<?= $data['status'] ?>
 						</td>
 						<td class="table-report__action w-56">
 							<div class="flex justify-center items-center">
@@ -110,8 +107,13 @@
 									data-tw-target="#update<?= $data['id_pengeluaran'] ?>" href="javascript:;"> <i
 										data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit
 								</button>
-								<a class="flex items-center text-danger cursor-pointer" onclick="confirmDelete(<?= $data['id_pengeluaran'] ?>)">
+								<a class="flex items-center text-danger cursor-pointer"
+									onclick="confirmDelete(<?= $data['id_pengeluaran'] ?>)">
 									<i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
+								</a>
+								<a class="flex items-center cursor-pointer ml-3"
+									href="<?=base_url('pengeluaran/detailPengeluaran/'.$data['id_pengeluaran'])?>">
+									<i data-lucide="zoom-in" class="w-4 h-4 mr-1"></i> Detail
 								</a>
 
 							</div>
@@ -127,11 +129,12 @@
 									<!-- BEGIN: Modal Body -->
 									<form action="<?= base_url('pengeluaran/updatePengeluaran') ?>" method="post">
 										<div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-											<input type="hidden" name="id_pengeluaran" value="<?= $data['id_pengeluaran'] ?>" id="">
+											<input type="hidden" name="id_pengeluaran"
+												value="<?= $data['id_pengeluaran'] ?>" id="">
 											<div class="col-span-12 sm:col-span-12"> <label for="modal-form-1"
-													class="form-label">Nominal</label> <input id="modal-form-1" type="text"
-													class="form-control" placeholder="Masukkan nama" name="nominal"
-													value="<?= $data['nominal'] ?>"> </div>
+													class="form-label">Nominal</label> <input id="modal-form-1"
+													type="text" class="form-control" placeholder="Masukkan nama"
+													name="nominal" value="<?= $data['nominal'] ?>"> </div>
 											<div class="col-span-12 sm:col-span-12"> <label for="modal-form-3"
 													class="form-label">Keterangan</label> <input id="modal-form-3"
 													type="text" class="form-control" placeholder="Masukkan alamat"
@@ -141,7 +144,7 @@
 													type="date" class="form-control" placeholder="Masukkan username"
 													name="tanggal" value="<?= $data['tanggal'] ?>"> </div>
 
-										
+
 										</div> <!-- END: Modal Body -->
 										<!-- BEGIN: Modal Footer -->
 										<div class="modal-footer"> <button type="button" data-tw-dismiss="modal"
@@ -152,47 +155,14 @@
 								</form>
 							</div>
 						</div> <!-- END: Modal Content -->
-						
+
 					</tr>
 
 					<?php  } ?>
 				</tbody>
 			</table>
 		</div>
-		<!-- END: Data List -->
-		<!-- BEGIN: Pagination -->
-		<div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-			<nav class="w-full sm:w-auto sm:mr-auto">
-				<ul class="pagination">
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevrons-left"></i> </a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevron-left"></i> </a>
-					</li>
-					<li class="page-item"> <a class="page-link" href="#">...</a> </li>
-					<li class="page-item"> <a class="page-link" href="#">1</a> </li>
-					<li class="page-item active"> <a class="page-link" href="#">2</a> </li>
-					<li class="page-item"> <a class="page-link" href="#">3</a> </li>
-					<li class="page-item"> <a class="page-link" href="#">...</a> </li>
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevron-right"></i> </a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#"> <i class="w-4 h-4" data-lucide="chevrons-right"></i> </a>
-					</li>
-				</ul>
-			</nav>
-			<select class="w-20 form-select box mt-3 sm:mt-0">
-				<option>10</option>
-				<option>25</option>
-				<option>35</option>
-				<option>50</option>
-			</select>
-		</div>
-		<!-- END: Pagination -->
-	</div>
-	
+		<!-- END: Data List --> 	
 
 </div>
 
@@ -203,40 +173,54 @@
 <!-- SweetAlert2 -->
 
 <script>
-    $(document).ready(function () {
-        $('#userTable').DataTable({
-            "paging": true,
-            "ordering": true,
-            "info": true,
-            "searching": true,
-            "lengthChange": true,
-            "pageLength": 10,
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ data per halaman",
-                "zeroRecords": "Data tidak ditemukan",
-                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                "infoEmpty": "Tidak ada data",
-                "infoFiltered": "(disaring dari _MAX_ total data)"
-            }
-        });
-    });
+	$(document).ready(function () {
+		$('#userTable').DataTable({
+			"paging": true,
+			"ordering": true,
+			"info": true,
+			"searching": true,
+			"lengthChange": true,
+			"pageLength": 10,
+			"language": {
+				"search": "Cari:",
+				"lengthMenu": "Tampilkan _MENU_ data per halaman",
+				"zeroRecords": "Data tidak ditemukan",
+				"info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+				"infoEmpty": "Tidak ada data",
+				"infoFiltered": "(disaring dari _MAX_ total data)"
+			}
+		});
+	});
+
 </script>
 <script>
-    function confirmDelete(id_pengeluaran) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect to the delete function in your backend
-                window.location.href = '<?= base_url("pengeluaran/deletePengeluaran/") ?>' + id_pengeluaran;
-            }
-        });
+	function confirmDelete(id_pengeluaran) {
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			cancelButtonColor: '#3085d6',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				// Redirect to the delete function in your backend
+				window.location.href = '<?= base_url("pengeluaran/deletePengeluaran/") ?>' + id_pengeluaran;
+			}
+		});
+	}
+
+</script>
+<script>
+    function toggleTagihan() {
+        const metode = document.getElementById("modal-form-6").value;
+        const tagihanForm = document.getElementById("tagihan-form");
+
+        if (metode === "Credit") {
+            tagihanForm.style.display = "block";
+        } else {
+            tagihanForm.style.display = "none";
+        }
     }
 </script>
