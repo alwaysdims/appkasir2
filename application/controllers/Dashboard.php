@@ -90,4 +90,9 @@ class Dashboard extends CI_Controller {
 		$this->load->view('layout/footer.php');
 	}
 
+	public function searchInvoice(){
+		$nota = $this->input->post('nota');
+		redirect('penjualan/invoice/'.$nota);
+	}
+
 }

@@ -32,7 +32,7 @@
 							?>
 					<tr>
 						<td class="px-4 py-2 text-center"><?= $no ?></td>
-						<td style="color:blue;" class="px-4 py-2 text-center">#<?= $data['nota'] ?></td>
+						<td style="color:blue;" class="px-4 py-2 text-center"><a href="<?= base_url('penjualan/invoice/'. $data['nota']) ?>">#<?= $data['nota'] ?></a></td>
 						<td class="px-4 py-2 text-center"><?= "Rp " . number_format($data['tagihan'], 0, ',', '.') ?></td>
 						<td class="px-4 py-2 text-center" <?=($data['status'] == 'Belum Lunas' ? 'style="color:red;"' : 'style="color:green;"')?>><?= $data['status'] ?></td>
 						<td class="px-4 py-2 text-center table-report__action w-56"  >

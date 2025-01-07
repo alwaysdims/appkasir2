@@ -15,6 +15,8 @@
 							class="btn btn-primary text-right">Laporan Penjualan</a>
 						<a href="javascript:;" data-tw-toggle="modal" data-tw-target="#Pengeluaran"
 							class="btn btn-primary text-right">Laporan Pengeluaraan</a>
+						<a href="javascript:;" data-tw-toggle="modal" data-tw-target="#search"
+							class="btn btn-primary text-right">Cari Invoice</a>
 					</div>
 				</div>
 
@@ -46,6 +48,22 @@
 									<input type="date" class="form-control mb-3" name="tgl1" required>
 									<input type="date" class="form-control mb-3" name="tgl2" required>
 									<button type="submit" class="btn btn-primary">Expor Excel</button>
+								</form>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="search" class="modal" tabindex="-1" aria-hidden="true" style="">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body p-10 text-center">
+								<h1 class="mb-2 text-left">Cari Invoice</h1>
+								<form action="<?= base_url('dashboard/searchInvoice') ?>" method="post" class="">
+									
+									<input type="number" class="form-control mb-3" name="nota" required>
+									<button type="submit" class="btn btn-primary">Cari</button>
 								</form>
 
 

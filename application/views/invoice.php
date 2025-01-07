@@ -51,7 +51,7 @@
 
 
 			</div>
-			<div class="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
+			<!-- <div class="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
 				<div>
 					<div class="text-base text-slate-500">Client Details</div>
 					<div class="text-lg font-medium text-primary mt-2"><?= $client['name'] ?? 'Unknown' ?></div>
@@ -63,7 +63,7 @@
 					<div class="text-lg font-medium text-primary mt-2">Left4code</div>
 					<div class="mt-1">left4code@gmail.com</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="px-5 sm:px-16 py-10 sm:py-20">
 			<div class="overflow-x-auto">

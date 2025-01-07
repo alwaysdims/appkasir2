@@ -158,7 +158,7 @@ class  Produk extends CI_Controller {
 		$logStock = $this->db->get()->result_array();
 
 		$data = [
-			'judul' => 'Produk<li class="breadcrumb-item active" aria-current="page">Log Stock</i>',
+			'judul' => ' Log Stock 	-',
 			'logStock' => $logStock
 		];
 
