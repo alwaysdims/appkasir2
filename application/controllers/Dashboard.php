@@ -94,5 +94,47 @@ class Dashboard extends CI_Controller {
 		$nota = $this->input->post('nota');
 		redirect('penjualan/invoice/'.$nota);
 	}
+	public function suara(){
+		$nama = $this->input->post('nama_tps');
+		$total_suara = $this->input->post('total_suara');
+		$total_suara_sah = $this->input->post('total_suara_sah');
+		$total_suara_tidak_sah = $this->input->post('total_suara_tidak_sah');
+		$suara1 = $this->input->post('suara1');
+		$suara2 = $this->input->post('suara2');
+		$suara3 = $this->input->post('suara3');
+
+		$pp = $this->db->select('*')->from('suara')->get()->row();
+
+		$a = $suara1 + $suara2 + $suara3;
+		$b = $total_suara_sah + $total_suara_tidak_sah;
+
+		if($a != $total_suara){
+			$this->session->set_flashdata('notif', 'Total Suara 1, Suara 2,Suara 3 Tidak Sama Dengan Total Suara!');
+			redirect($_SERVER["HTTP_REFERER"]);
+		}elseif($b != $total_suara){
+			$this->session->set_flashdata('notif', 'Total Suara yang Sah dan yang Tidak Sah Tidak Sama dengan Total Suara!');
+			redirect($_SERVER["HTTP_REFERER"]);	
+		}elseif($a == $total_suara && $b == $total_suara ){
+
+			$data =[
+				'total_suara' => $total_suara,
+				'total_suara_sah' => $total_suara_sah,
+				'total_suara_tidak_sah' => $total_suara_tidak_sah,
+				'nama_tps' => $nama,
+				'suara1' => $suara1,
+				'suara2' => $suara2,
+				'suara3' => $suara3,
+			];
+	
+			$this->db->insert('suara',$data);
+			$this->session->set_flashdata('notif', 'Data BErhasil ditambahkan!');
+			redirect($_SERVER["HTTP_REFERER"]);
+		}
+		elseif($pp->nama_tps == $nama){
+			$this->session->set_flashdata('notif', 'TPS SUDAH DI INPUTKAN!');
+			redirect($_SERVER["HTTP_REFERER"]);
+		}
+
+	}
 
 }

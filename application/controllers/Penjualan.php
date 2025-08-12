@@ -331,5 +331,28 @@ class Penjualan extends CI_Controller {
 		$this->load->view('layout/footer.php');
 	}
 
+	public function printStruk($nota){
+		$this->db->select('*')->from('penjualan')->order_by('tanggal','DESC')->where('nota',$nota);
+		$penjualan = $this->db->get()->row();
+
+		$this->db->select('a.*,b.nama,b.kode_barang');
+		$this->db->from('detail_penjualan a')
+			->join('produk b','a.id_produk=b.id_produk')
+			->where('nota',$nota);
+		$detailPenjualan = $this->db->get()->result_array();
+
+		$profil = $this->db->from('konfigurasi')->get()->row();
+
+		$data = [
+			'judul' => 'Invoice #'.$nota,
+			'profil' => $profil,
+			'detailPenjualan' =>$detailPenjualan,
+			'penjualan' => $penjualan,
+			'nota' => $nota
+		]; 
+
+		$this->load->view('struk', $data);	
+	}
+	
 	
 }

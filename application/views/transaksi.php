@@ -45,21 +45,20 @@
 		</div>
 		
 		<!-- Tabel Produkkkkkk -->
-		<div class="intro-y col-span-9">
+		<div class="intro-y col-span-8 lg:col-span-9">
 			<div class="intro-y">
-				<table class="table box text-center">
+				<table class="table box text-center ">
 					<thead>
 						<tr>
-							<th class="">#</th>
-							<th class="">Kode Barang</th>
-							<th class="">Produk</th>
+							<th class="text-center">#</th>
+							<th class="text-center">Kode Barang</th>
+							<th class="text-center">Produk</th>
 							<th class="text-center">Jumlah</th>
-							<th class="">Harga</th>
-							<th></th>
-							<th></th>
+							<th class="text-center">Harga</th>
+							
 							<th class="text-center">Total</th>
-							<th></th>
-							<th class="">Action</th>
+							
+							<th class="text-center">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -72,10 +71,10 @@
 								$total_harga += $jumlah;
 						?>
 						<tr>
-							<td class="whitespace-no-wrap"><?= $no ?></td>
-							<td class="whitespace-no-wrap"><?= $data['kode_barang'] ?></td>
-							<td class="whitespace-no-wrap" ><?= $data['nama'] ?></td>
-							<td class="whitespace-no-wrap">
+							<td class="whitespace-no-wrap text-center"><?= $no ?></td>
+							<td class="whitespace-no-wrap text-center"><?= $data['kode_barang'] ?></td>
+							<td class="whitespace-no-wrap text-center" ><?= $data['nama'] ?></td>
+							<td class="whitespace-no-wrap text-center">
 								<form action="<?= base_url('penjualan/updateJumlahTemp/{id_temp}') ?>" method="post"
 									id="form_update">
 									<input type="hidden" name="id_temp" value="<?= $data['id_temp'] ?>">
@@ -84,11 +83,11 @@
 										onchange="autoSubmit()">
 								</form>
 							</td>
-							<td class="whitespace-no-wrap"  colspan="2"><?= 'Rp '. number_format($data['harga'],0,',',','
+							<td class="whitespace-no-wrap text-center"  colspan=""><?=  number_format($data['harga'],0,',',','
 							) ?></td>
-							<td class="whitespace-no-wrap"  colspan="3"><?= 'Rp '.number_format($jumlah,0,',',
+							<td class="whitespace-no-wrap text-center"  colspan=""><?= number_format($jumlah,0,',',
 							',') ?></td>
-							<td class="whitespace-no-wrap" >
+							<td class="whitespace-no-wrap text-center" >
 								<a href="#"
 									onclick="confirmDelete('<?= base_url('penjualan/delete/'.$data['id_temp']) ?>')"
 									class="btn btn-danger">Hapus</a>
@@ -98,7 +97,7 @@
 						<!-- Total Harga -->
 						<tr>
 							<td colspan="5" class="text-center">Total Harga</td>
-							<td colspan="4" class="text-center"> <?= 'Rp '. number_format($total_harga,0,',',',') ?></td>
+							<td colspan="2" class="text-center"> <?= 'Rp '. number_format($total_harga,0,',',',') ?></td>
 							<td class="text-center">-</td>
 						</tr>
 						<!-- Form untuk pembayaran -->
@@ -106,7 +105,7 @@
 							enctype="multipart/form-data">
 							<tr>
 								<!-- Input Uang Bayar -->
-								<td colspan="13">
+								<td colspan="12">
 									<div>
 										
 									<input type="hidden" name="total_harga" id="" value="<?= $total_harga ?>">

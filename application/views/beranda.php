@@ -1,9 +1,12 @@
 <div class="content content--top-nav">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+
 	<div class="col-span-12 intro-x">
 		<div id="blank-modal" class="p-5">
 			<div class="preview">
 				<!-- BEGIN: Modal Toggle -->
+				<?= $this->session->flashdata('notif', true) ?>
+				<!-- <?php var_dump($this->session->flashdata('notif',true));  ?> -->
 				<div class="row">
 					<div class="col-md-12 flex items-center gap-2">
 						<!-- Tombol Tambah Penjualan -->
@@ -17,8 +20,11 @@
 							class="btn btn-primary text-right">Laporan Pengeluaraan</a>
 						<a href="javascript:;" data-tw-toggle="modal" data-tw-target="#search"
 							class="btn btn-primary text-right">Cari Invoice</a>
+						<a href="javascript:;" data-tw-toggle="modal" data-tw-target="#suara"
+							class="btn btn-primary text-right">Inpus Suara</a>
 					</div>
 				</div>
+	
 
 				<!-- BEGIN: Modal Content -->
 				<div id="penjualan" class="modal" tabindex="-1" aria-hidden="true" style="">
@@ -30,6 +36,28 @@
 									<input type="date" class="form-control mb-3" name="tgl1" required>
 									<input type="date" class="form-control mb-3" name="tgl2" required>
 									<button type="submit" class="btn btn-primary">Expor Excel</button>
+								</form>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="suara" class="modal" tabindex="-1" aria-hidden="true" style="">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body p-10 text-center">
+								<h1 class="mb-2 text-left">Cetak Laporan Penjualan ke-Exel</h1>
+								<form action="<?= base_url('dashboard/suara') ?>" method="post" class="">
+									<input type="text" class="form-control mb-3" name="nama_tps" required placeholder="Nama TPS">
+									<input type="number" class="form-control mb-3" name="total_suara" required placeholder="Total Suara">
+									<input type="number" class="form-control mb-3" name="total_suara_sah" required placeholder="Total Suara Sah">
+									<input type="number" class="form-control mb-3" name="total_suara_tidak_sah" required placeholder="Total Suara Tidak Sah">
+									<input type="number" class="form-control mb-3" name="suara1" required placeholder="Suara No 1">
+									<input type="number" class="form-control mb-3" name="suara2" required placeholder="Suara No 2">
+									<input type="number" class="form-control mb-3" name="suara3" required placeholder="Suara No 3">
+									
+									<button type="submit" class="btn btn-primary">Input</button>
 								</form>
 
 
@@ -272,51 +300,8 @@
 			// Array warna untuk setiap bulan
 			$colors = ['bg-gray-400', 'bg-red-400', 'bg-yellow-400', 'bg-green-400', 'bg-blue-400', 'bg-indigo-400', 'bg-purple-400', 'bg-pink-400', 'bg-teal-400']; 
    		?>
-			<div
-				class="flex flex-col items-center w-full max-w-screen-md p-6 pb-6 bg-white rounded-lg shadow-xl sm:p-8 relative">
-				<h2 class="text-xl font-bold">Grafik Penjualan</h2>
-				<span class="text-sm font-semibold text-gray-500"><?= date('Y') ?></span>
-				<div class="flex w-full mt-2 relative">
-					<!-- Sisi kiri untuk $totaldata -->
-					<div class="flex flex-col justify-between h-[<?= $max_height + 20 ?>px] mr-3 relative">
-						<?php foreach (array_reverse($totaldata) as $index => $value): ?>
-						<!-- Garis horizontal -->
-						<div class="line-horizontal"
-							style="top: <?= ($index / (count($totaldata) - 1)) * $max_height ?>px;"></div>
-
-						<!-- Label nilai -->
-						<span class="text-xs font-bold text-gray-500"><?= number_format($value, 0, ',', '.') ?></span>
-						<?php endforeach; ?>
-						<div class="line-vertical" style="left: 102%;"></div>
-					</div>
-					<!-- Diagram grafik -->
-					<div class="flex items-end flex-grow space-x-2 sm:space-x-3 relative">
-						<?php foreach ($data_penjualan as $index => $penjualan): 
-                    // Menghitung tinggi dinamis berdasarkan penjualan bulan
-                    $height = $penjualan > 0 ? ($penjualan / $max_penjualan) * $max_height : 0;
-                    // Menentukan warna berdasarkan bulan
-                    $color = $colors[($index - 1) % count($colors)];
-					?>
-						<div class="relative flex flex-col items-center flex-grow pb-5 group">
-							<!-- Garis vertikal -->
-							<div class="line-vertical" style="left: 50%;"></div>
-							<!-- Menampilkan nilai penjualan saat hover -->
-							<span class="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
-								<?= number_format($penjualan, 0, ',', '.') ?>
-							</span>
-							<!-- Grafik dinamis dengan warna berbeda -->
-							<div class="relative flex justify-center w-full <?= $color ?>"
-								style="height: <?= $height ?>px;">
-							</div>
-							<!-- Nama bulan -->
-							<span class="absolute bottom-0 text-xs font-bold">
-								<?= $bulan_nama[$index - 1] ?>
-							</span>
-						</div>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			</div>
+			
+			<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 		</div>
 
 
@@ -408,6 +393,64 @@
 				class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View
 				More</a>
 		</div>
+		
 
 	</div>
 </div>
+
+<?php
+// Ambil data penjualan 5 bulan terakhir dari database
+$penjualan = [];
+$bulan_labels = [];
+
+for ($i = 4; $i >= 0; $i--) {
+    $bulan = date('Y-m', strtotime("-$i months"));
+
+    $this->db->select('SUM(total_harga) as total');
+    $this->db->from('penjualan');
+    $this->db->like('tanggal', $bulan, 'after'); // Filter berdasarkan bulan
+    $query = $this->db->get();
+    $row = $query->row();
+
+    // Simpan data ke dalam array
+    $penjualan[] = $row->total ?? 0;
+    $bulan_labels[] = date('M Y', strtotime($bulan)); // Format nama bulan
+}
+	
+?>
+<!-- <canvas id="myChart" style="width:100%;max-width:700px"></canvas> -->
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const xValues = <?= json_encode($bulan_labels); ?>;
+    const yValues = <?= json_encode($penjualan); ?>;
+    const barColors = ["red", "green", "blue", "orange", "brown"];
+
+    new Chart("myChart", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Penjualan 5 Bulan Terakhir"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: { beginAtZero: true }
+                }]
+            }
+        }
+    });
+});
+</script>
+
+
